@@ -5,6 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import PowerTransformer
+from category_encoders import OneHotEncoder, OrdinalEncoder
 def show_predict_pag():
     st.write("Software Developer Stroke Prediction")
     model = pickle.load(open("model.pkl", "rb"))
