@@ -5,8 +5,7 @@ import numpy as np
 
 def show_predict_pag():
     st.write("Software Developer Stroke Prediction")
-    with open('model.pkl', 'rb') as file:
-        model = pickle.load(file)
+    model = pickle.load(open("model.pkl", "rb"))
 
 
     with open('preprocessing_pipeline.pkl', 'rb') as file:
