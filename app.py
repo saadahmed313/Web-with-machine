@@ -17,12 +17,8 @@ def show_predict_pag():
 
 
     out = {}
-    age=st.text_input("Age")
-    if age != "":
-        try:
-            out['age'] = float(age)   
-        except:
-            raise("the age must be a number")    
+    out['age']=st.slider("Age", 0, 100, 50)
+
     out['hypertension'] = 1 if st.radio("Hypertension", ["Yes", "NO"]) == "Yes" else 0
     out['heart_disease'] = 1 if st.radio("Heart Disease", ["Yes", "NO"]) == "Yes" else 0
 
@@ -35,19 +31,10 @@ def show_predict_pag():
     out['work_type']=st.selectbox("Work Type", work_type)
     out['Residence_type']=st.radio("Residence Type", ["Urban", "Rural"])
 
-    avg_glucose_level=st.text_input("Avg Glucose Level")
-    if avg_glucose_level != "":
-        try:
-            out['avg_glucose_level'] = float(avg_glucose_level)   
-        except:
-            raise("the avg glucose level must be a number")   
 
-    bmi=st.text_input("BMI")
-    if bmi != "":
-        try:
-            out['bmi'] = float(bmi)   
-        except:
-            raise("the bmi glucose level must be a number")   
+    out['avg_glucose_level']=st.slider("Avg Glucose Level", 50, 300, 150)       
+
+    out['bmi']=st.slider("BMI", 10, 100, 25)            
     smoking_status = ["formerly smoked", "never smoked", "smokes"]          
     out['smoking_status']=st.selectbox("Smoking Status", smoking_status)
     ok = st.button("Predict")
