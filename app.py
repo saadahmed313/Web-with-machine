@@ -6,10 +6,19 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 from sklearn.preprocessing import PowerTransformer
 from category_encoders import OneHotEncoder, OrdinalEncoder
+import requests
+
+def send_post_request(api_url, json_data):
+    response = requests.post(api_url, json=json_data)
+    if response.status_code == 200:
+        return response.json()
+    else:
+        return None
+
 def show_predict_pag():
     st.write("Software Developer Stroke Prediction")
     model = pickle.load(open("model.pkl", "rb"))
-
+    api_url = "https://machine-api-eq7w.onrender.com/predict"
 
     with open('preprocessing_pipeline.pkl', 'rb') as file:
         pre = pickle.load(file)
@@ -38,11 +47,12 @@ def show_predict_pag():
     smoking_status = ["formerly smoked", "never smoked", "smokes"]          
     out['smoking_status']=st.selectbox("Smoking Status", smoking_status)
     ok = st.button("Predict")
-    data = pd.DataFrame([out])
+    
     if ok:
         re = pre.transform(data)
-        
-        st.write("The predict: " + ("Potential Stroke" if model.predict(re)[0] else "Clear"))
+        json_data = out
+        data = send_post_request(api_url, json_data)
+        st.write("The predict: " + ("Potential Stroke" if data['detail'] else "Clear"))
 
 
 
