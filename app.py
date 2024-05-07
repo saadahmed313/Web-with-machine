@@ -54,7 +54,7 @@ def show_predict_pag():
     }
     if ok:
         response = send_post_request(api_url, data)
-        st.write("The predict: " + ("Potential Stroke" if response['prediction']  else "Clear"))
+        st.header("The predict: " + ("Potential Stroke" if response['prediction']  else "Clear"))
 
 
 
