@@ -1,11 +1,8 @@
 import streamlit as st
 import pandas as pd
-import pickle
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-from sklearn.preprocessing import PowerTransformer
-from category_encoders import OneHotEncoder, OrdinalEncoder
 import requests
 
 def send_post_request(api_url, json_data):
@@ -17,11 +14,7 @@ def send_post_request(api_url, json_data):
 
 def show_predict_pag():
     st.write("Software Developer Stroke Prediction")
-    model = pickle.load(open("model.pkl", "rb"))
     api_url = "https://machine-api-eq7w.onrender.com/predict"
-
-    with open('preprocessing_pipeline.pkl', 'rb') as file:
-        pre = pickle.load(file)
 
 
 
@@ -49,7 +42,6 @@ def show_predict_pag():
     ok = st.button("Predict")
     
     if ok:
-        re = pre.transform(data)
         json_data = out
         data = send_post_request(api_url, json_data)
         st.write("The predict: " + ("Potential Stroke" if data['detail'] else "Clear"))
