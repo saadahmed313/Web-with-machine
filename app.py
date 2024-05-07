@@ -3,19 +3,17 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
-import requests
 
+import requests
 def send_post_request(api_url, json_data):
     response = requests.post(api_url, json=json_data)
     if response.status_code == 200:
         return response.json()
     else:
         return None
-
 def show_predict_pag():
     st.write("Software Developer Stroke Prediction")
     api_url = "https://machine-api-eq7w.onrender.com/predict"
-
 
 
     out = {}
@@ -39,13 +37,25 @@ def show_predict_pag():
     out['bmi']=st.slider("BMI", 10, 100, 25)            
     smoking_status = ["formerly smoked", "never smoked", "smokes"]          
     out['smoking_status']=st.selectbox("Smoking Status", smoking_status)
+    out['smoking_not_found'] = "True" if st.radio("Smoking Not Found", ["Yes", "NO"]) == "Yes" else "False"
     ok = st.button("Predict")
-    
+    data={
+        "gender": out['gender'],
+        "age": out['age'],
+        "hypertension": out['hypertension'],
+        "heart_disease": out['heart_disease'],
+        "ever_married": out['ever_married'],
+        "work_type": out['work_type'],
+        "Residence_type": out['Residence_type'],
+        "avg_glucose_level": out['avg_glucose_level'],
+        "bmi": out['bmi'],
+        "smoking_status": out['smoking_status'],
+        "smoking_not_found": out['smoking_not_found']
+    }
     if ok:
-        json_data = out
-        data = send_post_request(api_url, json_data)
-        if data and 'detail' in data:
-            st.write("The prediction: " + ("Potential Stroke" if data['detail'] else "Clear"))
+        response = send_post_request(api_url, data)
+        st.write("The predict: " + ("Potential Stroke" if response['prediction']  else "Clear"))
+
 
 
 def show_explore_pag():
