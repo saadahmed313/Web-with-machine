@@ -42,7 +42,7 @@ def show_predict_pag():
     if ok:
         re = pre.transform(data)
         
-        st.write("The predict: " + ("Stroke" if model.predict(re)[0] else "Not Stroke"))
+        st.write("The predict: " + ("Potential Stroke" if model.predict(re)[0] else "Clear"))
 
 
 
