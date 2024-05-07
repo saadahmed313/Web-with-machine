@@ -44,8 +44,8 @@ def show_predict_pag():
     if ok:
         json_data = out
         data = send_post_request(api_url, json_data)
-        st.write("The predict: " + ("Potential Stroke" if data['detail'] else "Clear"))
-
+        if data and 'detail' in data:
+            st.write("The prediction: " + ("Potential Stroke" if data['detail'] else "Clear"))
 
 
 def show_explore_pag():
